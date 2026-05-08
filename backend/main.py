@@ -44,6 +44,8 @@ class CalculationResult(BaseModel):
     bai: float
     bmi_category: str
     bai_category: str
+    global_bmi_category: str
+    asian_bmi_category: str
     advice: Dict[str, Any]
     risk_data: Dict[str, Any]
     age_band: str
@@ -92,6 +94,9 @@ async def calculate_metrics(metrics: UserMetrics):
     bmi_cat = classify_with_thresholds(bmi, active_thresholds)
     bai_cat = classify_bai(bai, metrics.gender)
 
+    global_bmi_cat = classify_with_thresholds(bmi, STANDARD_THRESHOLDS)
+    asian_bmi_cat = classify_with_thresholds(bmi, ASIAN_THRESHOLDS)
+
     age_band = get_age_band(metrics.age)
     risk_key = (age_band, bmi_cat)
     # Default risk if not found (though it should be)
@@ -105,6 +110,8 @@ async def calculate_metrics(metrics: UserMetrics):
         bai=bai,
         bmi_category=bmi_cat,
         bai_category=bai_cat,
+        global_bmi_category=global_bmi_cat,
+        asian_bmi_category=asian_bmi_cat,
         advice=HEALTH_ADVICE[bmi_cat],
         risk_data=risk_data,
         age_band=age_band

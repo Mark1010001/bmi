@@ -156,8 +156,8 @@ const Calculator = ({ metrics, setMetrics, results, activeStandard, populationPa
                 <td className="p-3 text-center text-[#ccc]">BMI ≥ 25.0</td>
                 <td className="p-3 text-center text-[#ccc]">BMI ≥ 30.0</td>
                 <td className="p-3 text-center">
-                   <span className="px-2 py-1 rounded-md text-[12px] font-bold" style={{ backgroundColor: `${CATEGORY_COLORS[results.bmi_category]}22`, color: CATEGORY_COLORS[results.bmi_category], border: `1px solid ${CATEGORY_COLORS[results.bmi_category]}` }}>
-                    {results.bmi_category}
+                   <span className="px-2 py-1 rounded-md text-[12px] font-bold" style={{ backgroundColor: `${CATEGORY_COLORS[results.global_bmi_category]}22`, color: CATEGORY_COLORS[results.global_bmi_category], border: `1px solid ${CATEGORY_COLORS[results.global_bmi_category]}` }}>
+                    {results.global_bmi_category}
                    </span>
                 </td>
               </tr>
@@ -168,8 +168,8 @@ const Calculator = ({ metrics, setMetrics, results, activeStandard, populationPa
                 <td className="p-3 text-center text-[#ccc]">BMI ≥ 23.0</td>
                 <td className="p-3 text-center text-[#ccc]">BMI ≥ 27.5</td>
                 <td className="p-3 text-center">
-                   <span className="px-2 py-1 rounded-md text-[12px] font-bold" style={{ backgroundColor: `${CATEGORY_COLORS[results.bmi_category]}22`, color: CATEGORY_COLORS[results.bmi_category], border: `1px solid ${CATEGORY_COLORS[results.bmi_category]}` }}>
-                    {results.bmi_category}
+                   <span className="px-2 py-1 rounded-md text-[12px] font-bold" style={{ backgroundColor: `${CATEGORY_COLORS[results.asian_bmi_category]}22`, color: CATEGORY_COLORS[results.asian_bmi_category], border: `1px solid ${CATEGORY_COLORS[results.asian_bmi_category]}` }}>
+                    {results.asian_bmi_category}
                    </span>
                 </td>
               </tr>
