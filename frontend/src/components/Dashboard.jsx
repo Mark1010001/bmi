@@ -1,96 +1,120 @@
 import React, { useState } from 'react';
 import Charts from './Charts';
+import { Info } from 'lucide-react';
 
 const Dashboard = ({ data, userResults, userMetrics }) => {
-  const [activeTab, setActiveTab] = useState('BMI Distribution');
-  const { patterns, sample, chart_data } = data;
+  const [activeTab, setActiveTab] = useState('BMI DISTRIBUTION');
+  const { patterns, chart_data } = data;
 
   const CATEGORY_COLORS = {
     "Underweight": "#378ADD",
-    "Normal":      "#639922",
+    "Normal":      "#d4f01e",
     "Overweight":  "#BA7517",
     "Obese":       "#E24B4A",
   };
 
   const tabs = [
-    "BMI Distribution",
-    "BAI Distribution",
-    "Avg BMI by Age",
-    "Age vs BMI + Trend",
-    "Risk Disparity",
+    "BMI DISTRIBUTION",
+    "BAI DISTRIBUTION",
+    "AVG BMI BY AGE",
+    "AGE VS BMI + TREND",
+    "RISK DISPARITY",
   ];
 
   const categories = ["Underweight", "Normal", "Overweight", "Obese"];
 
   return (
-    <div className="flex flex-col gap-8">
-      <h3 className="text-xl font-bold text-white mb-4">Population Patterns Dashboard</h3>
+    <div className="flex-1 p-8 flex flex-col gap-10 overflow-y-auto custom-scrollbar">
+      {/* Dashboard Header */}
+      <div className="flex justify-between items-center">
+        <h2 className="text-3xl font-bold text-white tracking-tight">Population Patterns Dashboard</h2>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#141414] border border-[#222]">
+          <span className="live-indicator"></span>
+          <span className="text-[10px] font-bold text-[#666] uppercase tracking-wider">Live Feed Active</span>
+        </div>
+      </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-5 gap-3">
+      {/* KPI Row */}
+      <div className="grid grid-cols-5 gap-4">
         {[
           { label: 'Users', value: patterns.total_users },
           { label: 'Avg BMI', value: patterns.overall_avg_bmi },
-          { label: 'Avg BAI', value: `${patterns.overall_avg_bai}%`, color: '#a78bfa' },
+          { label: 'Avg BAI', value: `${patterns.overall_avg_bai}%` },
           { label: 'Std Dev', value: patterns.bmi_std },
-          { label: 'BMI=BAI Agree', value: `${Math.round(patterns.agreement_count / patterns.total_users * 100)}%`, color: '#639922' },
+          { label: 'BMI=BAI Agree', value: `${Math.round(patterns.agreement_count / patterns.total_users * 100)}%`, brand: true },
         ].map((kpi, i) => (
-          <div key={i} className="metric-card">
-            <p className="metric-label">{kpi.label}</p>
-            <p className="metric-value" style={{ color: kpi.color || 'white', fontSize: i === 4 ? '20px' : '26px' }}>
-              {kpi.value}
-            </p>
+          <div key={i} className={`metric-card flex flex-col items-center justify-center ${kpi.brand ? 'border-[#d4f01e55]' : ''}`}>
+            <p className="text-[10px] font-bold text-[#666] uppercase tracking-widest mb-3">{kpi.label}</p>
+            <p className={`text-4xl font-bold tracking-tight ${kpi.brand ? 'text-[#d4f01e]' : 'text-white'}`}>{kpi.value}</p>
           </div>
         ))}
       </div>
 
       {/* Category Breakdown */}
       <div>
-        <p className="section-title">Risk category breakdown (BMI standard)</p>
-        <div className="grid grid-cols-4 gap-4">
-          {categories.map(cat => {
-            const count = patterns.category_counts[cat] || 0;
-            const pct = Math.round((count / patterns.total_users) * 100);
-            return (
-              <div key={cat} className="text-center">
-                <div className="h-1.5 w-full bg-[#1c1c2e] rounded-full mb-2 overflow-hidden">
-                   <div
-                    className="h-full rounded-full transition-all duration-500"
-                    style={{ width: `${pct}%`, backgroundColor: CATEGORY_COLORS[cat] }}
-                   />
+        <p className="text-[10px] font-bold text-[#666] uppercase tracking-widest mb-6">Risk Category Breakdown (BMI Standard)</p>
+        <div className="flex flex-col gap-8">
+          <div className="grid grid-cols-4 gap-8">
+            {categories.map(cat => {
+              const count = patterns.category_counts[cat] || 0;
+              const pct = Math.round((count / patterns.total_users) * 100);
+              return (
+                <div key={cat} className="flex flex-col items-center">
+                  <p className="text-[10px] font-bold text-[#444] uppercase mb-2">{cat}</p>
+                  <p className="text-3xl font-bold mb-1" style={{ color: CATEGORY_COLORS[cat] }}>{count}</p>
+                  <p className="text-[10px] font-bold text-[#444]">{pct}%</p>
                 </div>
-                <p className="text-[11px] text-[#888]">{cat}</p>
-                <p className="text-lg font-bold" style={{ color: CATEGORY_COLORS[cat] }}>{count}</p>
-                <p className="text-[11px] text-[#666]">{pct}%</p>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+
+          {/* Multi-segmented Progress Bar */}
+          <div className="h-2 w-full flex rounded-full overflow-hidden">
+            {categories.map(cat => {
+              const count = patterns.category_counts[cat] || 0;
+              const pct = (count / patterns.total_users) * 100;
+              return (
+                <div
+                  key={cat}
+                  style={{ width: `${pct}%`, backgroundColor: CATEGORY_COLORS[cat] }}
+                  className="h-full"
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
 
-      {/* Disparity Insight */}
-      <div className="disparity-banner">
-        <b className="text-[#a29bfe]">Risk Disparity Insight:</b>
-        &nbsp;<b className="text-white">{patterns.disparity_count} out of {patterns.total_users} users</b>
-        &nbsp;are classified as <b>'Normal'</b> under WHO standard but
-        &nbsp;<b>'High Risk'</b> under ethnic-adjusted thresholds.
-        &nbsp;|&nbsp;
-        <b className="text-[#639922]">{patterns.agreement_count} users</b>
-        &nbsp;get the same category from both BMI and BAI.
+      {/* Insight Banner */}
+      <div className="p-5 rounded-xl bg-[#d4f01e08] border border-[#d4f01e15] flex items-start gap-4">
+        <div className="p-2 rounded-lg bg-[#a78bfa22]">
+          <Info size={18} className="text-[#a78bfa]" />
+        </div>
+        <p className="text-[13px] leading-relaxed text-[#888]">
+          <b className="text-[#a78bfa]">Risk Disparity Insight:</b>
+          <b className="text-white mx-1">{patterns.disparity_count} out of {patterns.total_users} users</b>
+          are classified as <b className="text-white">'Normal'</b> under WHO standard but
+          <b className="text-orange-400 mx-1">'High Risk'</b> under ethnic-adjusted thresholds.
+          <span className="mx-2 text-[#444]">|</span>
+          <b className="text-brand">{patterns.agreement_count} users</b> get the same category from both BMI and BAI.
+        </p>
       </div>
 
-      {/* Tabs */}
-      <div>
-        <div className="flex border-b border-[#2a2a3e] mb-6">
+      {/* Tabs and Charts */}
+      <div className="flex flex-col gap-6">
+        <div className="flex gap-10 border-b border-[#222]">
           {tabs.map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-[2px] ${
-                activeTab === tab ? 'text-white border-[#a78bfa]' : 'text-[#888] border-transparent hover:text-white'
+              className={`pb-4 text-[11px] font-bold tracking-widest transition-all relative ${
+                activeTab === tab ? 'text-white' : 'text-[#444] hover:text-[#666]'
               }`}
             >
               {tab}
+              {activeTab === tab && (
+                <div className="absolute bottom-0 left-0 w-full h-[2px] bg-brand shadow-[0_0_8px_#d4f01e]"></div>
+              )}
             </button>
           ))}
         </div>
@@ -105,33 +129,6 @@ const Dashboard = ({ data, userResults, userMetrics }) => {
           />
         </div>
       </div>
-
-      {/* Sample Data */}
-      <details className="mt-4 group">
-        <summary className="text-sm font-medium text-[#888] cursor-pointer hover:text-white transition-colors">
-          View Sample Dataset (first 15 rows)
-        </summary>
-        <div className="mt-4 overflow-x-auto rounded-xl border border-[#2a2a3e]">
-          <table className="w-full border-collapse text-[12px]">
-            <thead>
-              <tr className="bg-[#0d0d1f] text-[#666] uppercase">
-                {["Age", "Gender", "Race", "Height_m", "Weight_kg", "Hip_cm", "BMI", "BAI", "Risk_Category", "BAI_Category"].map(h => (
-                  <th key={h} className="p-3 text-left border-b border-[#2a2a3e]">{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {sample.map((row, i) => (
-                <tr key={i} className="hover:bg-white/5 border-b border-[#2a2a3e]">
-                  {["Age", "Gender", "Race", "Height_m", "Weight_kg", "Hip_cm", "BMI", "BAI", "Risk_Category", "BAI_Category"].map(col => (
-                    <td key={col} className="p-3">{row[col]}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </details>
     </div>
   );
 };
