@@ -1,4 +1,4 @@
-from models.classifier import (
+from .classifier import (
     get_age_band,
     calculate_bmi,
     calculate_bai,

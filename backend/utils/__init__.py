@@ -1,1 +1,1 @@
-from utils.advice import HEALTH_ADVICE
+from .advice import HEALTH_ADVICE
