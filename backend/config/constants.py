@@ -42,22 +42,50 @@ STANDARD_GLOBAL = "Global WHO Standard"
 STANDARD_ASIAN  = "Asian Clinical Standard"
 
 # ─────────────────────────────────────────────
-# BAI NORMAL RANGES BY GENDER (body fat %)
+# BAI NORMAL RANGES BY GENDER & AGE (body fat %)
 # Source: Bergman et al. (2011), Obesity Journal
 # ─────────────────────────────────────────────
 
 BAI_CATEGORIES = {
     "Male": {
-        "Underweight": (0,    8.0),
-        "Normal":      (8.0,  21.0),
-        "Overweight":  (21.0, 26.0),
-        "Obese":       (26.0, float("inf")),
+        "Young": {
+            "Underweight": (0,    8.0),
+            "Normal":      (8.0,  21.0),
+            "Overweight":  (21.0, 26.0),
+            "Obese":       (26.0, float("inf")),
+        },
+        "Middle": {
+            "Underweight": (0,    11.0),
+            "Normal":      (11.0, 23.0),
+            "Overweight":  (23.0, 29.0),
+            "Obese":       (29.0, float("inf")),
+        },
+        "Senior": {
+            "Underweight": (0,    13.0),
+            "Normal":      (13.0, 25.0),
+            "Overweight":  (25.0, 31.0),
+            "Obese":       (31.0, float("inf")),
+        }
     },
     "Female": {
-        "Underweight": (0,    21.0),
-        "Normal":      (21.0, 33.0),
-        "Overweight":  (33.0, 39.0),
-        "Obese":       (39.0, float("inf")),
+        "Young": {
+            "Underweight": (0,    21.0),
+            "Normal":      (21.0, 33.0),
+            "Overweight":  (33.0, 39.0),
+            "Obese":       (39.0, float("inf")),
+        },
+        "Middle": {
+            "Underweight": (0,    23.0),
+            "Normal":      (23.0, 35.0),
+            "Overweight":  (35.0, 41.0),
+            "Obese":       (41.0, float("inf")),
+        },
+        "Senior": {
+            "Underweight": (0,    25.0),
+            "Normal":      (25.0, 38.0),
+            "Overweight":  (38.0, 44.0),
+            "Obese":       (44.0, float("inf")),
+        }
     },
 }
 

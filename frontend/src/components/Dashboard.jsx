@@ -8,7 +8,7 @@ const Dashboard = ({ data, userResults, userMetrics }) => {
 
   const CATEGORY_COLORS = {
     "Underweight": "#378ADD",
-    "Normal":      "#d4f01e",
+    "Normal":      "#D9FF00",
     "Overweight":  "#BA7517",
     "Obese":       "#E24B4A",
   };
@@ -28,7 +28,7 @@ const Dashboard = ({ data, userResults, userMetrics }) => {
       {/* Dashboard Header */}
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-bold text-white tracking-tight">Population Patterns Dashboard</h2>
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#141414] border border-[#222]">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1a1a1a] border border-[#222]">
           <span className="live-indicator"></span>
           <span className="text-[10px] font-bold text-[#666] uppercase tracking-wider">Live Feed Active</span>
         </div>
@@ -43,9 +43,9 @@ const Dashboard = ({ data, userResults, userMetrics }) => {
           { label: 'Std Dev', value: patterns.bmi_std },
           { label: 'BMI=BAI Agree', value: `${Math.round(patterns.agreement_count / patterns.total_users * 100)}%`, brand: true },
         ].map((kpi, i) => (
-          <div key={i} className={`metric-card flex flex-col items-center justify-center ${kpi.brand ? 'border-[#d4f01e55]' : ''}`}>
+          <div key={i} className={`metric-card flex flex-col items-center justify-center ${kpi.brand ? 'border-[#D9FF0055]' : ''}`}>
             <p className="text-[10px] font-bold text-[#666] uppercase tracking-widest mb-3">{kpi.label}</p>
-            <p className={`text-4xl font-bold tracking-tight ${kpi.brand ? 'text-[#d4f01e]' : 'text-white'}`}>{kpi.value}</p>
+            <p className={`text-4xl font-bold tracking-tight ${kpi.brand ? 'text-[#D9FF00]' : 'text-white'}`}>{kpi.value}</p>
           </div>
         ))}
       </div>
@@ -86,7 +86,7 @@ const Dashboard = ({ data, userResults, userMetrics }) => {
       </div>
 
       {/* Insight Banner */}
-      <div className="p-5 rounded-xl bg-[#d4f01e08] border border-[#d4f01e15] flex items-start gap-4">
+      <div className="p-5 rounded-xl bg-[#D9FF0008] border border-[#D9FF0015] flex items-start gap-4">
         <div className="p-2 rounded-lg bg-[#a78bfa22]">
           <Info size={18} className="text-[#a78bfa]" />
         </div>
@@ -113,7 +113,7 @@ const Dashboard = ({ data, userResults, userMetrics }) => {
             >
               {tab}
               {activeTab === tab && (
-                <div className="absolute bottom-0 left-0 w-full h-[2px] bg-brand shadow-[0_0_8px_#d4f01e]"></div>
+                <div className="absolute bottom-0 left-0 w-full h-[2px] bg-brand shadow-[0_0_8px_#D9FF00]"></div>
               )}
             </button>
           ))}

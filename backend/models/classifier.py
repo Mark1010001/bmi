@@ -77,12 +77,15 @@ def calculate_bai(hip_cm: float, height_m: float) -> float:
     return round((hip_cm / (height_m ** 1.5)) - 18, 1)
 
 
-def classify_bai(bai: float, gender: str) -> str:
+def classify_bai(bai: float, gender: str, age: int) -> str:
     """
-    Classify BAI using gender-specific ranges (Bergman et al., 2011).
+    Classify BAI using gender and age-specific ranges (Bergman et al., 2011).
     Gender must be 'Male' or 'Female'.
     """
-    ranges = BAI_CATEGORIES.get(gender, BAI_CATEGORIES["Male"])
+    gender_ranges = BAI_CATEGORIES.get(gender, BAI_CATEGORIES["Male"])
+    age_band = get_age_band(age)
+    ranges = gender_ranges.get(age_band, gender_ranges["Young"])
+
     for category, (low, high) in ranges.items():
         if low <= bai < high:
             return category

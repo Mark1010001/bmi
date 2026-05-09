@@ -83,7 +83,7 @@ def transform_dataset(df: pd.DataFrame) -> pd.DataFrame:
     )
     df["Risk_Category"] = df["BMI"].apply(classify_bmi)
     df["BAI_Category"]  = df.apply(
-        lambda r: classify_bai(r["BAI"], r["Gender"]), axis=1
+        lambda r: classify_bai(r["BAI"], r["Gender"], r["Age"]), axis=1
     )
     df["Ethnic_Category"] = df.apply(
         lambda r: classify_bmi_ethnic(r["BMI"], r["Race"]), axis=1
