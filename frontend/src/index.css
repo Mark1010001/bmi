@@ -15,17 +15,18 @@ body {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.03);
 }
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: #444;
   border-radius: 10px;
+  border: 2px solid #0d0d0d;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #444;
+  background: #d4f01e;
 }
 
 /* Base styles */

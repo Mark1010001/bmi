@@ -59,7 +59,7 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
       </div>
 
       {/* Scrollable Content */}
-      <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden p-8 custom-scrollbar min-h-0">
         <div className="flex flex-col gap-10">
 
           {/* Configuration Section */}
