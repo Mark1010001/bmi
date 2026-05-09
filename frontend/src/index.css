@@ -1,15 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand: #d4f01e;
-  --color-bg-main: #0d0d0d;
-  --color-bg-card: #141414;
+  --color-brand: #D9FF00;
+  --color-secondary: #A855F7;
+  --color-tertiary: #2DD4BF;
+  --color-bg-main: #121212;
+  --color-bg-card: #1a1a1a;
   --color-border-dim: #222222;
 }
 
 body {
-  background-color: #0d0d0d;
-  color: #cccccc;
+  background-color: #121212;
+  color: #f0f0f0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
@@ -23,26 +25,26 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #444;
   border-radius: 10px;
-  border: 2px solid #0d0d0d;
+  border: 2px solid #121212;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #d4f01e;
+  background: #D9FF00;
 }
 
 /* Base styles */
-.text-brand { color: #d4f01e; }
-.bg-brand { background-color: #d4f01e; }
-.border-brand { border-color: #d4f01e; }
+.text-brand { color: #D9FF00; }
+.bg-brand { background-color: #D9FF00; }
+.border-brand { border-color: #D9FF00; }
 
 /* Custom components */
 .panel-card {
-  background-color: #141414;
+  background-color: #1a1a1a;
   border: 1px solid #222222;
   border-radius: 12px;
 }
 
 .metric-card {
-  background-color: #141414;
+  background-color: #1a1a1a;
   border: 1px solid #222222;
   border-radius: 8px;
   padding: 1.25rem;
@@ -88,7 +90,7 @@ body {
 }
 
 .input-btn:hover {
-  color: #d4f01e;
+  color: #D9FF00;
   background-color: #1a1a1a;
 }
 
@@ -127,9 +129,9 @@ body {
 }
 
 .toggle-btn.active {
-  border-color: #d4f01e;
-  color: #d4f01e;
-  background-color: rgba(212, 240, 30, 0.05);
+  border-color: #D9FF00;
+  color: #D9FF00;
+  background-color: rgba(217, 255, 0, 0.05);
 }
 
 .standard-radio {
@@ -144,13 +146,13 @@ body {
 }
 
 .standard-radio.active {
-  border-color: #d4f01e;
-  background-color: rgba(212, 240, 30, 0.03);
+  border-color: #D9FF00;
+  background-color: rgba(217, 255, 0, 0.03);
 }
 
 .standard-radio input {
   margin-right: 10px;
-  accent-color: #d4f01e;
+  accent-color: #D9FF00;
 }
 
 .category-tag {
@@ -165,10 +167,10 @@ body {
   display: inline-block;
   width: 8px;
   height: 8px;
-  background-color: #d4f01e;
+  background-color: #D9FF00;
   border-radius: 50%;
   margin-right: 8px;
-  box-shadow: 0 0 8px #d4f01e;
+  box-shadow: 0 0 8px #D9FF00;
   animation: pulse 2s infinite;
 }
 

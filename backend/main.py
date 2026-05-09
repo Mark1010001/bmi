@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Dict, Optional, Any
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 import pandas as pd
 import numpy as np
 
@@ -21,8 +23,42 @@ from config.constants import (
     STANDARD_GLOBAL,
 )
 from utils.advice import HEALTH_ADVICE
+from utils.auth import (
+    verify_password,
+    create_access_token,
+    decode_token,
+    USER_DB
+)
 
 app = FastAPI()
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/login")
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class User(BaseModel):
+    username: str
+    full_name: Optional[str] = None
+
+async def get_current_user(token: str = Depends(oauth2_scheme)):
+    payload = decode_token(token)
+    if payload is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    username: str = payload.get("sub")
+    if username is None or username not in USER_DB:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    user_data = USER_DB[username]
+    return User(username=user_data["username"], full_name=user_data["full_name"])
 
 app.add_middleware(
     CORSMiddleware,
@@ -50,8 +86,24 @@ class CalculationResult(BaseModel):
     risk_data: Dict[str, Any]
     age_band: str
 
+@app.post("/api/auth/login", response_model=Token)
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = USER_DB.get(form_data.username)
+    if not user or not verify_password(form_data.password, user["hashed_password"]):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token = create_access_token(data={"sub": user["username"]})
+    return {"access_token": access_token, "token_type": "bearer"}
+
+@app.get("/api/auth/me", response_model=User)
+async def read_users_me(current_user: User = Depends(get_current_user)):
+    return current_user
+
 @app.get("/api/data")
-async def get_population_data():
+async def get_population_data(current_user: User = Depends(get_current_user)):
     raw_df = generate_dataset(50)
     df = transform_dataset(raw_df)
     patterns = mine_patterns(df)
@@ -83,7 +135,7 @@ async def get_population_data():
     }
 
 @app.post("/api/calculate", response_model=CalculationResult)
-async def calculate_metrics(metrics: UserMetrics):
+async def calculate_metrics(metrics: UserMetrics, current_user: User = Depends(get_current_user)):
     height_m = metrics.height / 100
     active_thresholds = (
         STANDARD_THRESHOLDS if metrics.active_standard == STANDARD_GLOBAL else ASIAN_THRESHOLDS

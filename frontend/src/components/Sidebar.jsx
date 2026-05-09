@@ -1,9 +1,9 @@
 import React from 'react';
-import { Minus, Plus, Zap, LayoutGrid } from 'lucide-react';
+import { Minus, Plus, Zap, LayoutGrid, LogOut } from 'lucide-react';
 
 const CATEGORY_COLORS = {
   "Underweight": "#378ADD",
-  "Normal":      "#d4f01e",
+  "Normal":      "#D9FF00",
   "Overweight":  "#BA7517",
   "Obese":       "#E24B4A",
 };
@@ -16,7 +16,7 @@ const NumberInput = ({ label, value, onChange, min, max, step = 1, unit = "", de
     <div className="mb-6">
       <div className="sidebar-label font-bold text-[10px] text-[#555] uppercase tracking-[0.15em] mb-2">{label} {unit && `(${unit})`}</div>
       <div className="flex items-center gap-1">
-        <button onClick={decrement} className="w-10 h-10 flex items-center justify-center bg-[#111] text-[#d4f01e] rounded-md border border-[#1a1a1a] hover:bg-[#1a1a1a] active:scale-95 transition-transform">
+        <button onClick={decrement} className="w-10 h-10 flex items-center justify-center bg-[#111] text-[#D9FF00] rounded-md border border-[#1a1a1a] hover:bg-[#1a1a1a] active:scale-95 transition-transform">
           <Minus size={14} strokeWidth={4} />
         </button>
         <div className="flex-1 bg-[#111] border border-[#1a1a1a] rounded-md h-10 flex items-center justify-center">
@@ -27,7 +27,7 @@ const NumberInput = ({ label, value, onChange, min, max, step = 1, unit = "", de
             className="w-full bg-transparent text-center text-white text-[15px] font-black outline-none"
           />
         </div>
-        <button onClick={increment} className="w-10 h-10 flex items-center justify-center bg-[#111] text-[#d4f01e] rounded-md border border-[#1a1a1a] hover:bg-[#1a1a1a] active:scale-95 transition-transform">
+        <button onClick={increment} className="w-10 h-10 flex items-center justify-center bg-[#111] text-[#D9FF00] rounded-md border border-[#1a1a1a] hover:bg-[#1a1a1a] active:scale-95 transition-transform">
           <Plus size={14} strokeWidth={4} />
         </button>
       </div>
@@ -35,7 +35,7 @@ const NumberInput = ({ label, value, onChange, min, max, step = 1, unit = "", de
   );
 };
 
-const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, results }) => {
+const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, results, onLogout }) => {
   const handleMetricChange = (name, value) => {
     setMetrics(prev => ({ ...prev, [name]: value }));
   };
@@ -46,11 +46,11 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
   ];
 
   return (
-    <aside className="w-[380px] h-screen bg-[#0d0d0d] border-r border-[#1a1a1a] flex flex-col shrink-0">
+    <aside className="w-[380px] h-screen bg-[#121212] border-r border-[#1a1a1a] flex flex-col shrink-0">
       {/* Branding Area */}
       <div className="p-6 pb-6 border-b border-[#1a1a1a]">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-[#d4f01e] rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(212,240,30,0.3)]">
+          <div className="w-9 h-9 bg-[#D9FF00] rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(217,255,0,0.3)]">
             <LayoutGrid size={18} className="text-black" strokeWidth={3} />
           </div>
           <div className="flex items-center gap-3">
@@ -71,7 +71,7 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
           {/* Configuration Section */}
           <section>
             <div className="flex items-center gap-2.5 mb-8">
-              <div className="w-1.5 h-1.5 rounded-full bg-brand shadow-[0_0_8px_rgba(212,240,30,0.6)]"></div>
+              <div className="w-1.5 h-1.5 rounded-full bg-[#D9FF00] shadow-[0_0_8px_rgba(217,255,0,0.6)]"></div>
               <h2 className="text-[11px] font-black text-white uppercase tracking-[0.25em]">BODY CONFIGURATION</h2>
             </div>
 
@@ -84,7 +84,7 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
                     onClick={() => handleMetricChange('gender', g)}
                     className={`flex-1 py-3.5 rounded-lg border text-[10px] font-black uppercase transition-all flex items-center justify-center gap-2 ${
                       metrics.gender === g
-                        ? 'border-brand bg-brand/5 text-brand shadow-[0_0_15px_rgba(212,240,30,0.1)]'
+                        ? 'border-[#D9FF00] bg-[#D9FF00]/5 text-[#D9FF00] shadow-[0_0_15px_rgba(217,255,0,0.1)]'
                         : 'border-[#1a1a1a] bg-[#111] text-[#444]'
                     }`}
                   >
@@ -152,14 +152,14 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
           {/* Live Analysis Section */}
           {results && (
             <section className="p-7 rounded-2xl bg-[#0a0a0a] border border-[#151515] shadow-[0_15px_50px_rgba(0,0,0,0.7)]">
-              <p className="text-[11px] font-black text-brand uppercase tracking-[0.25em] mb-10 text-center opacity-90">LIVE CALCULATION RESULTS</p>
+              <p className="text-[11px] font-black text-[#D9FF00] uppercase tracking-[0.25em] mb-10 text-center opacity-90">LIVE CALCULATION RESULTS</p>
 
               <div className="flex items-center justify-between">
                 <div className="flex-1 text-center">
                   <p className="text-[9px] font-bold text-[#444] uppercase tracking-[0.2em] mb-3">YOUR BMI</p>
                   <p className="text-[52px] font-black text-white tracking-tighter leading-none mb-1">{results.bmi}</p>
                   <div className="mt-6">
-                    <p className="text-[10px] font-black uppercase tracking-[0.35em]" style={{ color: CATEGORY_COLORS[results.bmi_category] || '#d4f01e' }}>
+                    <p className="text-[10px] font-black uppercase tracking-[0.35em]" style={{ color: CATEGORY_COLORS[results.bmi_category] || '#D9FF00' }}>
                       {results.bmi_category}
                     </p>
                   </div>
@@ -169,7 +169,7 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
                   <p className="text-[9px] font-bold text-[#444] uppercase tracking-[0.2em] mb-3">YOUR BAI</p>
                   <p className="text-[52px] font-black text-[#8098FF] tracking-tighter leading-none mb-1">{results.bai}%</p>
                   <div className="mt-6">
-                    <p className="text-[10px] font-black uppercase tracking-[0.35em]" style={{ color: results.bai_category === 'Normal' ? '#8098FF' : (CATEGORY_COLORS[results.bai_category] || '#d4f01e') }}>
+                    <p className="text-[10px] font-black uppercase tracking-[0.35em]" style={{ color: results.bai_category === 'Normal' ? '#8098FF' : (CATEGORY_COLORS[results.bai_category] || '#D9FF00') }}>
                       {results.bai_category === 'Normal' ? 'HEALTHY' : results.bai_category}
                     </p>
                   </div>
@@ -180,7 +180,7 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
 
           {/* Comparison Table */}
           {results && (
-            <section className="p-4 rounded-2xl bg-[#111] border border-[#1a1a1a]">
+            <section className="p-4 rounded-2xl bg-[#1a1a1a] border border-[#222]">
               <p className="text-[13px] font-black text-[#f0f0f0] uppercase tracking-wider mb-5 px-1">
                 YOUR BMI {results.bmi} — STANDARD COMPARISON
               </p>
@@ -200,17 +200,17 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
                     <div
                       key={s.name}
                       className={`flex items-center px-2 py-3.5 rounded-lg transition-all duration-300 ${
-                        activeStandard === s.id ? 'bg-[#d4f01e]/10 ring-1 ring-[#d4f01e]/20' : ''
+                        activeStandard === s.id ? 'bg-[#D9FF00]/10 ring-1 ring-[#D9FF00]/20' : ''
                       }`}
                     >
-                      <div className={`w-[30%] text-[11px] font-black ${activeStandard === s.id ? 'text-[#d4f01e]' : 'text-white'}`}>
+                      <div className={`w-[30%] text-[11px] font-black ${activeStandard === s.id ? 'text-[#D9FF00]' : 'text-white'}`}>
                         {s.name}
                       </div>
                       <div className="w-[20%] text-[10px] text-[#888] font-bold text-center">{s.over}</div>
                       <div className="w-[18%] text-[10px] text-[#888] font-bold text-center">{s.obese}</div>
                       <div
                         className="w-[32%] text-[12px] font-black text-right uppercase italic tracking-tight"
-                        style={{ color: CATEGORY_COLORS[s.cat] || '#d4f01e' }}
+                        style={{ color: CATEGORY_COLORS[s.cat] || '#D9FF00' }}
                       >
                         {s.cat}
                       </div>
@@ -222,8 +222,8 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
           )}
 
           {/* Reference Tables */}
-          <section className="p-4 rounded-2xl bg-[#111] border border-[#1a1a1a] mb-8">
-            <p className="text-[13px] font-black text-brand uppercase tracking-wider mb-5 px-1">HEALTHY BODY METRIC TARGETS</p>
+          <section className="p-4 rounded-2xl bg-[#1a1a1a] border border-[#222] mb-8">
+            <p className="text-[13px] font-black text-[#D9FF00] uppercase tracking-wider mb-5 px-1">HEALTHY BODY METRIC TARGETS</p>
             <div className="bg-[#0a0a0a] border border-zinc-800/50 rounded-xl p-4 shadow-inner overflow-hidden">
               <div className="flex text-[9px] text-[#555] font-black uppercase tracking-tighter border-b border-zinc-800/50 pb-3 mb-4">
                 <div className="w-[20%]">METRIC</div>
@@ -254,11 +254,18 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
       </div>
 
       {/* Footer Info */}
-      <div className="p-6 bg-[#0d0d0d] border-t border-[#1a1a1a] flex items-center justify-between">
+      <div className="p-6 bg-[#121212] border-t border-[#1a1a1a] flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Zap size={16} className="text-brand" fill="#d4f01e" />
+          <Zap size={16} className="text-[#D9FF00]" fill="#D9FF00" />
           <span className="text-[12px] font-black text-white uppercase tracking-[0.15em]">Auto-Analysis Live</span>
         </div>
+        <button
+          onClick={onLogout}
+          className="p-2.5 rounded-lg border border-[#222] bg-[#111] text-[#666] hover:text-[#E24B4A] hover:border-[#E24B4A]/30 transition-all active:scale-95"
+          title="Sign Out"
+        >
+          <LogOut size={16} strokeWidth={2.5} />
+        </button>
       </div>
     </aside>
   );
