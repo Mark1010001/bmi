@@ -1,1 +1,1 @@
-from config.constants import *
+from .constants import *
