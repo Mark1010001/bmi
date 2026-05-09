@@ -1,5 +1,5 @@
 import React from 'react';
-import { Minus, Plus, Zap, Activity } from 'lucide-react';
+import { Minus, Plus, Zap, LayoutGrid } from 'lucide-react';
 
 const CATEGORY_COLORS = {
   "Underweight": "#378ADD",
@@ -14,19 +14,19 @@ const NumberInput = ({ label, value, onChange, min, max, step = 1, unit = "" }) 
 
   return (
     <div className="mb-6">
-      <div className="sidebar-label">{label} {unit && `(${unit})`}</div>
-      <div className="input-container h-12">
-        <button onClick={decrement} className="input-btn w-14 border-r border-[#222]">
-          <Minus size={16} />
+      <div className="sidebar-label font-bold text-[10px] text-[#888]">{label} {unit && `(${unit})`}</div>
+      <div className="input-container h-10 mt-1">
+        <button onClick={decrement} className="input-btn w-12 border-r border-[#222] text-brand">
+          <Minus size={14} strokeWidth={3} />
         </button>
         <input
           type="number"
           value={value}
           onChange={(e) => onChange(parseFloat(e.target.value))}
-          className="input-field text-lg"
+          className="input-field text-md font-black"
         />
-        <button onClick={increment} className="input-btn w-14 border-l border-[#222]">
-          <Plus size={16} />
+        <button onClick={increment} className="input-btn w-12 border-l border-[#222] text-brand">
+          <Plus size={14} strokeWidth={3} />
         </button>
       </div>
     </div>
@@ -44,16 +44,20 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
   ];
 
   return (
-    <aside className="w-[380px] h-screen bg-[#080808] border-r border-[#1a1a1a] flex flex-col shrink-0">
+    <aside className="w-[380px] h-screen bg-[#0d0d0d] border-r border-[#1a1a1a] flex flex-col shrink-0">
       {/* Branding Area */}
-      <div className="p-8 pb-6 border-b border-[#1a1a1a]">
-        <div className="flex items-center gap-4 mb-2">
-          <div className="w-10 h-10 bg-[#d4f01e] rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(212,240,30,0.3)]">
-            <Activity size={24} className="text-black" strokeWidth={3} />
+      <div className="p-6 pb-6 border-b border-[#1a1a1a]">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 bg-[#d4f01e] rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(212,240,30,0.3)]">
+            <LayoutGrid size={18} className="text-black" strokeWidth={3} />
           </div>
-          <div>
-            <h1 className="text-2xl font-black text-white tracking-tighter leading-none">HealthAnalytics</h1>
-            <p className="text-[10px] font-extrabold text-[#444] tracking-[0.2em] uppercase mt-1">Classification Engine</p>
+          <div className="flex items-center gap-3">
+            <h1 className="text-[20px] font-black text-white tracking-tight leading-none">HealthAnalytics</h1>
+            <div className="h-6 w-[1px] bg-[#333]"></div>
+            <div className="flex flex-col">
+              <h2 className="text-[12px] font-black text-white tracking-tight leading-none">BMI Health</h2>
+              <h2 className="text-[12px] font-black text-white tracking-tight leading-none mt-1">Classifier</h2>
+            </div>
           </div>
         </div>
       </div>
@@ -69,39 +73,41 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
               <h2 className="text-[11px] font-black text-white uppercase tracking-widest">BODY METRICS</h2>
             </div>
 
-            <div className="mb-8">
-              <div className="sidebar-label">SELECT YOUR BMI STANDARD</div>
+            <div className="mb-6">
+              <div className="sidebar-label font-bold text-[10px] text-[#888] mb-2 uppercase tracking-wider">SELECT YOUR BMI STANDARD</div>
               <div className="flex flex-col gap-2">
                 {standards.map(std => (
                   <button
                     key={std.id}
                     onClick={() => setActiveStandard(std.id)}
-                    className={`flex items-center justify-between p-4 rounded-lg border transition-all ${
+                    className={`flex items-center justify-between px-4 py-3 rounded-lg border transition-all ${
                       activeStandard === std.id
-                        ? 'border-brand bg-brand/5 text-white shadow-[0_0_10px_rgba(212,240,30,0.1)]'
-                        : 'border-[#1a1a1a] bg-[#0d0d0d] text-[#555] hover:border-[#333]'
+                        ? 'border-[#333] bg-[#1a1a1a]/50 text-white'
+                        : 'border-[#1a1a1a] bg-[#111] text-[#555]'
                     }`}
                   >
-                    <span className="text-xs font-bold">{std.label}</span>
-                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${activeStandard === std.id ? 'border-brand' : 'border-[#333]'}`}>
-                      {activeStandard === std.id && <div className="w-2 h-2 rounded-full bg-brand"></div>}
+                    <div className="flex items-center gap-3">
+                      <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${activeStandard === std.id ? 'border-[#378ADD]' : 'border-[#333]'}`}>
+                        {activeStandard === std.id && <div className="w-2 h-2 rounded-full bg-[#378ADD]"></div>}
+                      </div>
+                      <span className="text-xs font-bold">{std.label}</span>
                     </div>
                   </button>
                 ))}
               </div>
             </div>
 
-            <div className="mb-8">
-              <div className="sidebar-label">GENDER</div>
+            <div className="mb-6">
+              <div className="sidebar-label font-bold text-[10px] text-[#888] mb-2 uppercase tracking-wider">GENDER</div>
               <div className="flex gap-2">
                 {['Male', 'Female'].map(g => (
                   <button
                     key={g}
                     onClick={() => handleMetricChange('gender', g)}
-                    className={`flex-1 p-3 rounded-lg border text-xs font-bold uppercase transition-all ${
+                    className={`flex-1 py-2.5 rounded-lg border text-[11px] font-bold uppercase transition-all flex items-center justify-center gap-2 ${
                       metrics.gender === g
                         ? 'border-brand bg-brand/5 text-brand'
-                        : 'border-[#1a1a1a] bg-[#0d0d0d] text-[#555]'
+                        : 'border-[#1a1a1a] bg-[#111] text-[#555]'
                     }`}
                   >
                     {g === 'Male' ? '♂ MALE' : '♀ FEMALE'}
@@ -141,21 +147,21 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
 
           {/* Live Analysis Section */}
           {results && (
-            <section className="p-4 rounded-xl bg-[#111] border border-[#1a1a1a]">
-              <p className="sidebar-label mb-4">LIVE CALCULATION RESULTS</p>
+            <section className="p-5 rounded-2xl bg-[#111] border border-[#1a1a1a]">
+              <p className="text-[11px] font-black text-brand uppercase tracking-wider mb-6">LIVE CALCULATION RESULTS</p>
 
-              <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-2 gap-4 mb-2">
                 <div>
-                  <p className="text-[9px] font-black text-[#555] uppercase tracking-wider mb-1">YOUR BMI</p>
-                  <p className="text-4xl font-black text-white tracking-tighter leading-none">{results.bmi}</p>
-                  <p className="text-[10px] font-black mt-2 uppercase tracking-widest" style={{ color: CATEGORY_COLORS[results.bmi_category] }}>
+                  <p className="text-[10px] font-bold text-[#666] uppercase tracking-wider mb-2">YOUR BMI</p>
+                  <p className="text-[34px] font-black text-white tracking-tight leading-none">{results.bmi}</p>
+                  <p className="text-[11px] font-black mt-3 uppercase tracking-widest" style={{ color: CATEGORY_COLORS[results.bmi_category] || '#d4f01e' }}>
                     {results.bmi_category}
                   </p>
                 </div>
-                <div className="text-right">
-                  <p className="text-[9px] font-black text-[#555] uppercase tracking-wider mb-1">YOUR BAI</p>
-                  <p className="text-4xl font-black text-purple-400 tracking-tighter leading-none">{results.bai}%</p>
-                  <p className="text-[10px] font-black mt-2 uppercase tracking-widest" style={{ color: CATEGORY_COLORS[results.bai_category] }}>
+                <div className="text-left pl-5 border-l border-[#222]">
+                  <p className="text-[10px] font-bold text-[#666] uppercase tracking-wider mb-2">YOUR BAI</p>
+                  <p className="text-[34px] font-black text-[#8098FF] tracking-tight leading-none">{results.bai}%</p>
+                  <p className="text-[11px] font-black mt-3 uppercase tracking-widest" style={{ color: results.bai_category === 'Normal' ? '#8098FF' : (CATEGORY_COLORS[results.bai_category] || '#d4f01e') }}>
                     {results.bai_category}
                   </p>
                 </div>
@@ -165,81 +171,91 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
 
           {/* Comparison Table */}
           {results && (
-            <section className="p-4 rounded-xl bg-[#111] border border-[#1a1a1a]">
-              <p className="text-[9px] font-black text-[#555] uppercase tracking-widest mb-4">
-                Your BMI {results.bmi} — Standard Comparison
+            <section className="p-5 rounded-2xl bg-[#111] border border-[#1a1a1a]">
+              <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider mb-5">
+                YOUR BMI {results.bmi} — STANDARD COMPARISON
               </p>
-              <div className="overflow-hidden">
-                <table className="w-full text-[9px] border-collapse">
-                  <thead>
-                    <tr className="text-[#333] font-black uppercase border-b border-[#222]">
-                      <th className="pb-2 text-left">Standard</th>
-                      <th className="pb-2 text-center">Overweight</th>
-                      <th className="pb-2 text-center">Obese</th>
-                      <th className="pb-2 text-right">Category</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#1a1a1a]">
-                    {[
-                      { name: 'Global WHO', over: '25.0+', obese: '30.0+', cat: results.global_bmi_category },
-                      { name: 'Asian Clinical', over: '23.0+', obese: '27.5+', cat: results.asian_bmi_category }
-                    ].map(s => (
-                      <tr key={s.name}>
-                        <td className="py-3 font-bold text-white">{s.name}</td>
-                        <td className="py-3 text-center text-[#444]">{s.over}</td>
-                        <td className="py-3 text-center text-[#444]">{s.obese}</td>
-                        <td className="py-3 text-right font-black uppercase" style={{ color: CATEGORY_COLORS[s.cat] }}>{s.cat}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-lg p-3">
+                <div className="grid grid-cols-3 text-[9px] font-bold text-[#444] uppercase mb-3 px-1">
+                  <div>STANDARD</div>
+                  <div className="text-center">OVERWEIGHT/OBESE</div>
+                  <div className="text-right">YOUR CATEGORY</div>
+                </div>
+
+                <div className="space-y-3">
+                  {[
+                    { name: 'Global WHO Standard', range: '25.0 - 30.0+', cat: results.global_bmi_category },
+                    { name: 'Asian Clinical Standard', range: '23.0 - 27.5+', cat: results.asian_bmi_category }
+                  ].map(s => (
+                    <div key={s.name} className="grid grid-cols-3 items-center px-1 border-b border-zinc-800/30 pb-2 last:border-0 last:pb-0">
+                      <div className="text-[10px] font-bold text-white opacity-80">{s.name}</div>
+                      <div className="text-[9px] text-[#555] font-bold text-center italic">{s.range}</div>
+                      <div
+                        className="text-[10px] font-black text-right uppercase italic"
+                        style={{ color: CATEGORY_COLORS[s.cat] || '#d4f01e' }}
+                      >
+                        {s.cat}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </section>
           )}
 
           {/* Reference Tables */}
-          <section className="p-4 rounded-xl bg-[#111] border border-[#1a1a1a] mb-8">
-            <p className="sidebar-label mb-4">HEALTHY BODY METRIC TARGETS</p>
-            <div className="overflow-x-auto">
-              <table className="w-full text-[9px] border-collapse">
-                <thead>
-                  <tr className="text-[#333] font-black uppercase border-b border-[#222]">
-                    <th className="pb-2 text-left">Metric</th>
-                    <th className="pb-2 text-center whitespace-nowrap px-1">BMI (WHO)</th>
-                    <th className="pb-2 text-center whitespace-nowrap px-1">BAI (18-39)</th>
-                    <th className="pb-2 text-center whitespace-nowrap px-1">BAI (40-59)</th>
-                    <th className="pb-2 text-right whitespace-nowrap px-1">BAI (60+)</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#1a1a1a]">
-                  <tr className="text-[#888]">
-                    <td className="py-3 font-bold text-white">Male</td>
-                    <td className="py-3 text-center whitespace-nowrap px-1">18.5-24.9</td>
-                    <td className="py-3 text-center whitespace-nowrap px-1">8%-21%</td>
-                    <td className="py-3 text-center whitespace-nowrap px-1">11%-23%</td>
-                    <td className="py-3 text-right whitespace-nowrap px-1">13%-25%</td>
-                  </tr>
-                  <tr className="text-[#888]">
-                    <td className="py-3 font-bold text-white">Female</td>
-                    <td className="py-3 text-center whitespace-nowrap px-1">18.5-24.9</td>
-                    <td className="py-3 text-center whitespace-nowrap px-1">21%-33%</td>
-                    <td className="py-3 text-center whitespace-nowrap px-1">23%-35%</td>
-                    <td className="py-3 text-right whitespace-nowrap px-1">25%-38%</td>
-                  </tr>
-                </tbody>
-              </table>
+          <section className="p-5 rounded-2xl bg-[#111] border border-[#1a1a1a] mb-8">
+            <p className="text-[11px] font-black text-brand uppercase tracking-wider mb-5">HEALTHY BODY METRIC TARGETS</p>
+            <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-lg p-3">
+              <div className="grid grid-cols-[1fr_0.8fr_1fr_0.8fr_0.8fr] gap-1 text-[7px] text-[#444] font-bold mb-3 px-1 uppercase">
+                <div>METRIC</div>
+                <div className="opacity-60 text-center">UNDERW.</div>
+                <div className="text-brand text-center">NORMAL</div>
+                <div className="opacity-60 text-center">OVERW.</div>
+                <div className="opacity-60 text-right">OBESE</div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="grid grid-cols-[1fr_0.8fr_1fr_0.8fr_0.8fr] gap-1 items-center px-1 border-b border-zinc-800/30 pb-2">
+                  <div className="text-[9px] font-black text-white opacity-70 whitespace-nowrap">BMI WHO</div>
+                  <div className="text-[8px] text-[#555] font-bold text-center">{"< 18.5"}</div>
+                  <div className="text-[9px] text-brand font-black text-center">18.5-25.0</div>
+                  <div className="text-[8px] text-[#555] font-bold text-center">25.0-30.0</div>
+                  <div className="text-[8px] text-[#555] font-bold text-right">30.0+</div>
+                </div>
+                <div className="grid grid-cols-[1fr_0.8fr_1fr_0.8fr_0.8fr] gap-1 items-center px-1 border-b border-zinc-800/30 pb-2">
+                  <div className="text-[9px] font-black text-white opacity-70 whitespace-nowrap">BAI 20-39</div>
+                  <div className="text-[8px] text-[#555] font-bold text-center">{"< 8.0%"}</div>
+                  <div className="text-[9px] text-[#8098FF] font-black text-center">8.0-21.0%</div>
+                  <div className="text-[8px] text-[#555] font-bold text-center">21.0-26.0%</div>
+                  <div className="text-[8px] text-[#555] font-bold text-right">26.0%+</div>
+                </div>
+                <div className="grid grid-cols-[1fr_0.8fr_1fr_0.8fr_0.8fr] gap-1 items-center px-1 border-b border-zinc-800/30 pb-2">
+                  <div className="text-[9px] font-black text-white opacity-70 whitespace-nowrap">BAI 40-59</div>
+                  <div className="text-[8px] text-[#555] font-bold text-center">{"< 11.0%"}</div>
+                  <div className="text-[9px] text-[#8098FF] font-black text-center">11.0-23.0%</div>
+                  <div className="text-[8px] text-[#555] font-bold text-center">23.0-29.0%</div>
+                  <div className="text-[8px] text-[#555] font-bold text-right">29.0%+</div>
+                </div>
+                <div className="grid grid-cols-[1fr_0.8fr_1fr_0.8fr_0.8fr] gap-1 items-center px-1">
+                  <div className="text-[9px] font-black text-white opacity-70 whitespace-nowrap">BAI 60-79</div>
+                  <div className="text-[8px] text-[#555] font-bold text-center">{"< 13.0%"}</div>
+                  <div className="text-[9px] text-[#8098FF] font-black text-center">13.0-25.0%</div>
+                  <div className="text-[8px] text-[#555] font-bold text-center">25.0-31.0%</div>
+                  <div className="text-[8px] text-[#555] font-bold text-right">31.0%+</div>
+                </div>
+              </div>
             </div>
           </section>
         </div>
       </div>
 
       {/* Footer Info */}
-      <div className="p-6 bg-[#0a0a0a] border-t border-[#1a1a1a] flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Zap size={14} className="text-brand" />
-          <span className="text-[9px] font-black text-[#444] uppercase tracking-widest">Auto-Mining Active</span>
+      <div className="p-6 bg-[#0d0d0d] border-t border-[#1a1a1a] flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Zap size={16} className="text-brand" fill="#d4f01e" />
+          <span className="text-[12px] font-black text-white uppercase tracking-[0.15em]">Auto-Analysis Live</span>
         </div>
-        <span className="text-[9px] font-black text-[#222] uppercase">v5.2.0-core</span>
       </div>
     </aside>
   );

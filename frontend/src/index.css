@@ -70,7 +70,7 @@ body {
 .input-container {
   background-color: #0a0a0a;
   border: 1px solid #222;
-  border-radius: 4px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   overflow: hidden;
