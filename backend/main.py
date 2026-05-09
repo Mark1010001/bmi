@@ -92,7 +92,7 @@ async def calculate_metrics(metrics: UserMetrics):
     bmi = calculate_bmi(metrics.weight, height_m)
     bai = calculate_bai(metrics.hip_cm, height_m)
     bmi_cat = classify_with_thresholds(bmi, active_thresholds)
-    bai_cat = classify_bai(bai, metrics.gender)
+    bai_cat = classify_bai(bai, metrics.gender, metrics.age)
 
     global_bmi_cat = classify_with_thresholds(bmi, STANDARD_THRESHOLDS)
     asian_bmi_cat = classify_with_thresholds(bmi, ASIAN_THRESHOLDS)

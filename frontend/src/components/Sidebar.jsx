@@ -8,25 +8,27 @@ const CATEGORY_COLORS = {
   "Obese":       "#E24B4A",
 };
 
-const NumberInput = ({ label, value, onChange, min, max, step = 1, unit = "" }) => {
+const NumberInput = ({ label, value, onChange, min, max, step = 1, unit = "", decimals = 0 }) => {
   const increment = () => onChange(Math.min(max, value + step));
   const decrement = () => onChange(Math.max(min, value - step));
 
   return (
     <div className="mb-6">
-      <div className="sidebar-label font-bold text-[10px] text-[#888]">{label} {unit && `(${unit})`}</div>
-      <div className="input-container h-10 mt-1">
-        <button onClick={decrement} className="input-btn w-12 border-r border-[#222] text-brand">
-          <Minus size={14} strokeWidth={3} />
+      <div className="sidebar-label font-bold text-[10px] text-[#555] uppercase tracking-[0.15em] mb-2">{label} {unit && `(${unit})`}</div>
+      <div className="flex items-center gap-1">
+        <button onClick={decrement} className="w-10 h-10 flex items-center justify-center bg-[#111] text-[#d4f01e] rounded-md border border-[#1a1a1a] hover:bg-[#1a1a1a] active:scale-95 transition-transform">
+          <Minus size={14} strokeWidth={4} />
         </button>
-        <input
-          type="number"
-          value={value}
-          onChange={(e) => onChange(parseFloat(e.target.value))}
-          className="input-field text-md font-black"
-        />
-        <button onClick={increment} className="input-btn w-12 border-l border-[#222] text-brand">
-          <Plus size={14} strokeWidth={3} />
+        <div className="flex-1 bg-[#111] border border-[#1a1a1a] rounded-md h-10 flex items-center justify-center">
+          <input
+            type="number"
+            value={decimals > 0 ? value.toFixed(decimals) : value}
+            onChange={(e) => onChange(parseFloat(e.target.value))}
+            className="w-full bg-transparent text-center text-white text-[15px] font-black outline-none"
+          />
+        </div>
+        <button onClick={increment} className="w-10 h-10 flex items-center justify-center bg-[#111] text-[#d4f01e] rounded-md border border-[#1a1a1a] hover:bg-[#1a1a1a] active:scale-95 transition-transform">
+          <Plus size={14} strokeWidth={4} />
         </button>
       </div>
     </div>
@@ -68,21 +70,40 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
 
           {/* Configuration Section */}
           <section>
-            <div className="section-header">
-              <div className="w-1.5 h-1.5 rounded-full bg-brand"></div>
-              <h2 className="text-[11px] font-black text-white uppercase tracking-widest">BODY METRICS</h2>
+            <div className="flex items-center gap-2.5 mb-8">
+              <div className="w-1.5 h-1.5 rounded-full bg-brand shadow-[0_0_8px_rgba(212,240,30,0.6)]"></div>
+              <h2 className="text-[11px] font-black text-white uppercase tracking-[0.25em]">BODY CONFIGURATION</h2>
             </div>
 
-            <div className="mb-6">
-              <div className="sidebar-label font-bold text-[10px] text-[#888] mb-2 uppercase tracking-wider">SELECT YOUR BMI STANDARD</div>
+            <div className="mb-10">
+              <div className="sidebar-label font-bold text-[10px] text-[#555] uppercase tracking-[0.15em] mb-3">SELECT GENDER</div>
+              <div className="flex gap-2">
+                {['Male', 'Female'].map(g => (
+                  <button
+                    key={g}
+                    onClick={() => handleMetricChange('gender', g)}
+                    className={`flex-1 py-3.5 rounded-lg border text-[10px] font-black uppercase transition-all flex items-center justify-center gap-2 ${
+                      metrics.gender === g
+                        ? 'border-brand bg-brand/5 text-brand shadow-[0_0_15px_rgba(212,240,30,0.1)]'
+                        : 'border-[#1a1a1a] bg-[#111] text-[#444]'
+                    }`}
+                  >
+                    {g === 'Male' ? '♂ MALE' : '♀ FEMALE'}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="mb-10">
+              <div className="sidebar-label font-bold text-[10px] text-[#555] uppercase tracking-[0.15em] mb-3">ACTIVE BMI STANDARD</div>
               <div className="flex flex-col gap-2">
                 {standards.map(std => (
                   <button
                     key={std.id}
                     onClick={() => setActiveStandard(std.id)}
-                    className={`flex items-center justify-between px-4 py-3 rounded-lg border transition-all ${
+                    className={`flex items-center justify-between px-4 py-3.5 rounded-lg border transition-all ${
                       activeStandard === std.id
-                        ? 'border-[#333] bg-[#1a1a1a]/50 text-white'
+                        ? 'border-[#333] bg-[#1a1a1a] text-white shadow-lg'
                         : 'border-[#1a1a1a] bg-[#111] text-[#555]'
                     }`}
                   >
@@ -90,27 +111,9 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
                       <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${activeStandard === std.id ? 'border-[#378ADD]' : 'border-[#333]'}`}>
                         {activeStandard === std.id && <div className="w-2 h-2 rounded-full bg-[#378ADD]"></div>}
                       </div>
-                      <span className="text-xs font-bold">{std.label}</span>
+                      <span className="text-[11px] font-bold uppercase tracking-tight">{std.label}</span>
                     </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <div className="sidebar-label font-bold text-[10px] text-[#888] mb-2 uppercase tracking-wider">GENDER</div>
-              <div className="flex gap-2">
-                {['Male', 'Female'].map(g => (
-                  <button
-                    key={g}
-                    onClick={() => handleMetricChange('gender', g)}
-                    className={`flex-1 py-2.5 rounded-lg border text-[11px] font-bold uppercase transition-all flex items-center justify-center gap-2 ${
-                      metrics.gender === g
-                        ? 'border-brand bg-brand/5 text-brand'
-                        : 'border-[#1a1a1a] bg-[#111] text-[#555]'
-                    }`}
-                  >
-                    {g === 'Male' ? '♂ MALE' : '♀ FEMALE'}
+                    {activeStandard === std.id && <Zap size={12} className="text-[#378ADD]" fill="#378ADD" />}
                   </button>
                 ))}
               </div>
@@ -128,6 +131,7 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
               value={metrics.weight}
               onChange={(v) => handleMetricChange('weight', v)}
               min={30} max={200} step={0.5}
+              decimals={2}
             />
             <NumberInput
               label="HEIGHT"
@@ -147,23 +151,28 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
 
           {/* Live Analysis Section */}
           {results && (
-            <section className="p-5 rounded-2xl bg-[#111] border border-[#1a1a1a]">
-              <p className="text-[11px] font-black text-brand uppercase tracking-wider mb-6">LIVE CALCULATION RESULTS</p>
+            <section className="p-7 rounded-2xl bg-[#0a0a0a] border border-[#151515] shadow-[0_15px_50px_rgba(0,0,0,0.7)]">
+              <p className="text-[11px] font-black text-brand uppercase tracking-[0.25em] mb-10 text-center opacity-90">LIVE CALCULATION RESULTS</p>
 
-              <div className="grid grid-cols-2 gap-4 mb-2">
-                <div>
-                  <p className="text-[10px] font-bold text-[#666] uppercase tracking-wider mb-2">YOUR BMI</p>
-                  <p className="text-[34px] font-black text-white tracking-tight leading-none">{results.bmi}</p>
-                  <p className="text-[11px] font-black mt-3 uppercase tracking-widest" style={{ color: CATEGORY_COLORS[results.bmi_category] || '#d4f01e' }}>
-                    {results.bmi_category}
-                  </p>
+              <div className="flex items-center justify-between">
+                <div className="flex-1 text-center">
+                  <p className="text-[9px] font-bold text-[#444] uppercase tracking-[0.2em] mb-3">YOUR BMI</p>
+                  <p className="text-[52px] font-black text-white tracking-tighter leading-none mb-1">{results.bmi}</p>
+                  <div className="mt-6">
+                    <p className="text-[10px] font-black uppercase tracking-[0.35em]" style={{ color: CATEGORY_COLORS[results.bmi_category] || '#d4f01e' }}>
+                      {results.bmi_category}
+                    </p>
+                  </div>
                 </div>
-                <div className="text-left pl-5 border-l border-[#222]">
-                  <p className="text-[10px] font-bold text-[#666] uppercase tracking-wider mb-2">YOUR BAI</p>
-                  <p className="text-[34px] font-black text-[#8098FF] tracking-tight leading-none">{results.bai}%</p>
-                  <p className="text-[11px] font-black mt-3 uppercase tracking-widest" style={{ color: results.bai_category === 'Normal' ? '#8098FF' : (CATEGORY_COLORS[results.bai_category] || '#d4f01e') }}>
-                    {results.bai_category}
-                  </p>
+                <div className="w-[1px] h-24 bg-[#1a1a1a] mx-2"></div>
+                <div className="flex-1 text-center">
+                  <p className="text-[9px] font-bold text-[#444] uppercase tracking-[0.2em] mb-3">YOUR BAI</p>
+                  <p className="text-[52px] font-black text-[#8098FF] tracking-tighter leading-none mb-1">{results.bai}%</p>
+                  <div className="mt-6">
+                    <p className="text-[10px] font-black uppercase tracking-[0.35em]" style={{ color: results.bai_category === 'Normal' ? '#8098FF' : (CATEGORY_COLORS[results.bai_category] || '#d4f01e') }}>
+                      {results.bai_category === 'Normal' ? 'HEALTHY' : results.bai_category}
+                    </p>
+                  </div>
                 </div>
               </div>
             </section>
