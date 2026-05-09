@@ -171,27 +171,36 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
 
           {/* Comparison Table */}
           {results && (
-            <section className="p-5 rounded-2xl bg-[#111] border border-[#1a1a1a]">
-              <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider mb-5">
+            <section className="p-4 rounded-2xl bg-[#111] border border-[#1a1a1a]">
+              <p className="text-[11px] font-bold text-[#ccc] uppercase tracking-wider mb-4 px-1">
                 YOUR BMI {results.bmi} — STANDARD COMPARISON
               </p>
-              <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-lg p-3">
-                <div className="grid grid-cols-3 text-[9px] font-bold text-[#444] uppercase mb-3 px-1">
-                  <div>STANDARD</div>
-                  <div className="text-center">OVERWEIGHT/OBESE</div>
-                  <div className="text-right">YOUR CATEGORY</div>
+              <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-lg p-2">
+                <div className="flex text-[8px] font-bold text-[#555] uppercase tracking-tighter mb-2 px-2">
+                  <div className="w-[28%]">STANDARD</div>
+                  <div className="w-[22%] text-center">OVERWEIGHT</div>
+                  <div className="w-[18%] text-center">OBESE</div>
+                  <div className="w-[32%] text-right">YOUR CATEGORY</div>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-1">
                   {[
-                    { name: 'Global WHO Standard', range: '25.0 - 30.0+', cat: results.global_bmi_category },
-                    { name: 'Asian Clinical Standard', range: '23.0 - 27.5+', cat: results.asian_bmi_category }
+                    { name: 'Global WHO', over: '25.0+', obese: '30.0+', cat: results.global_bmi_category, id: 'Global WHO Standard' },
+                    { name: 'Asian Clinical', over: '23.0+', obese: '27.5+', cat: results.asian_bmi_category, id: 'Asian Clinical Standard' }
                   ].map(s => (
-                    <div key={s.name} className="grid grid-cols-3 items-center px-1 border-b border-zinc-800/30 pb-2 last:border-0 last:pb-0">
-                      <div className="text-[10px] font-bold text-white opacity-80">{s.name}</div>
-                      <div className="text-[9px] text-[#555] font-bold text-center italic">{s.range}</div>
+                    <div
+                      key={s.name}
+                      className={`flex items-center px-2 py-3 rounded-md transition-colors ${
+                        activeStandard === s.id ? 'bg-[#d4f01e]/5' : ''
+                      }`}
+                    >
+                      <div className={`w-[28%] text-[10px] font-bold ${activeStandard === s.id ? 'text-[#d4f01e]' : 'text-white/80'}`}>
+                        {s.name}
+                      </div>
+                      <div className="w-[22%] text-[9px] text-[#666] font-bold text-center">{s.over}</div>
+                      <div className="w-[18%] text-[9px] text-[#666] font-bold text-center">{s.obese}</div>
                       <div
-                        className="text-[10px] font-black text-right uppercase italic"
+                        className="w-[32%] text-[10px] font-black text-right uppercase italic"
                         style={{ color: CATEGORY_COLORS[s.cat] || '#d4f01e' }}
                       >
                         {s.cat}
@@ -204,45 +213,30 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
           )}
 
           {/* Reference Tables */}
-          <section className="p-5 rounded-2xl bg-[#111] border border-[#1a1a1a] mb-8">
-            <p className="text-[11px] font-black text-brand uppercase tracking-wider mb-5">HEALTHY BODY METRIC TARGETS</p>
-            <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-lg p-3">
-              <div className="grid grid-cols-[1fr_0.8fr_1fr_0.8fr_0.8fr] gap-1 text-[7px] text-[#444] font-bold mb-3 px-1 uppercase">
-                <div>METRIC</div>
-                <div className="opacity-60 text-center">UNDERW.</div>
-                <div className="text-brand text-center">NORMAL</div>
-                <div className="opacity-60 text-center">OVERW.</div>
-                <div className="opacity-60 text-right">OBESE</div>
+          <section className="p-4 rounded-2xl bg-[#111] border border-[#1a1a1a] mb-8">
+            <p className="text-[11px] font-bold text-brand uppercase tracking-wider mb-4 px-1">HEALTHY BODY METRIC TARGETS</p>
+            <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-lg p-3 overflow-hidden">
+              <div className="flex text-[8px] text-[#555] font-bold uppercase tracking-tighter border-b border-zinc-800/50 pb-2 mb-2">
+                <div className="w-[18%]">METRIC</div>
+                <div className="w-[18%] text-center">BMI (WHO)</div>
+                <div className="w-[21%] text-center">BAI (18-39)</div>
+                <div className="w-[21%] text-center">BAI (40-59)</div>
+                <div className="w-[22%] text-right">BAI (60+)</div>
               </div>
-
               <div className="space-y-3">
-                <div className="grid grid-cols-[1fr_0.8fr_1fr_0.8fr_0.8fr] gap-1 items-center px-1 border-b border-zinc-800/30 pb-2">
-                  <div className="text-[9px] font-black text-white opacity-70 whitespace-nowrap">BMI WHO</div>
-                  <div className="text-[8px] text-[#555] font-bold text-center">{"< 18.5"}</div>
-                  <div className="text-[9px] text-brand font-black text-center">18.5-25.0</div>
-                  <div className="text-[8px] text-[#555] font-bold text-center">25.0-30.0</div>
-                  <div className="text-[8px] text-[#555] font-bold text-right">30.0+</div>
+                <div className="flex items-center text-white/90">
+                  <div className="w-[18%] text-[10px] font-bold text-white">Male</div>
+                  <div className="w-[18%] text-[9px] font-bold text-center">18.5-24.9</div>
+                  <div className="w-[21%] text-[9px] font-bold text-center">8%-21%</div>
+                  <div className="w-[21%] text-[9px] font-bold text-center">11%-23%</div>
+                  <div className="w-[22%] text-[9px] font-bold text-right">13%-25%</div>
                 </div>
-                <div className="grid grid-cols-[1fr_0.8fr_1fr_0.8fr_0.8fr] gap-1 items-center px-1 border-b border-zinc-800/30 pb-2">
-                  <div className="text-[9px] font-black text-white opacity-70 whitespace-nowrap">BAI 20-39</div>
-                  <div className="text-[8px] text-[#555] font-bold text-center">{"< 8.0%"}</div>
-                  <div className="text-[9px] text-[#8098FF] font-black text-center">8.0-21.0%</div>
-                  <div className="text-[8px] text-[#555] font-bold text-center">21.0-26.0%</div>
-                  <div className="text-[8px] text-[#555] font-bold text-right">26.0%+</div>
-                </div>
-                <div className="grid grid-cols-[1fr_0.8fr_1fr_0.8fr_0.8fr] gap-1 items-center px-1 border-b border-zinc-800/30 pb-2">
-                  <div className="text-[9px] font-black text-white opacity-70 whitespace-nowrap">BAI 40-59</div>
-                  <div className="text-[8px] text-[#555] font-bold text-center">{"< 11.0%"}</div>
-                  <div className="text-[9px] text-[#8098FF] font-black text-center">11.0-23.0%</div>
-                  <div className="text-[8px] text-[#555] font-bold text-center">23.0-29.0%</div>
-                  <div className="text-[8px] text-[#555] font-bold text-right">29.0%+</div>
-                </div>
-                <div className="grid grid-cols-[1fr_0.8fr_1fr_0.8fr_0.8fr] gap-1 items-center px-1">
-                  <div className="text-[9px] font-black text-white opacity-70 whitespace-nowrap">BAI 60-79</div>
-                  <div className="text-[8px] text-[#555] font-bold text-center">{"< 13.0%"}</div>
-                  <div className="text-[9px] text-[#8098FF] font-black text-center">13.0-25.0%</div>
-                  <div className="text-[8px] text-[#555] font-bold text-center">25.0-31.0%</div>
-                  <div className="text-[8px] text-[#555] font-bold text-right">31.0%+</div>
+                <div className="flex items-center text-white/90 border-t border-zinc-800/20 pt-3">
+                  <div className="w-[18%] text-[10px] font-bold text-white">Female</div>
+                  <div className="w-[18%] text-[9px] font-bold text-center">18.5-24.9</div>
+                  <div className="w-[21%] text-[9px] font-bold text-center">21%-33%</div>
+                  <div className="w-[21%] text-[9px] font-bold text-center">23%-35%</div>
+                  <div className="w-[22%] text-[9px] font-bold text-right">25%-38%</div>
                 </div>
               </div>
             </div>
