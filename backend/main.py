@@ -112,6 +112,7 @@ async def get_population_data(current_user: User = Depends(get_current_user)):
     patterns_serializable = {
         "avg_bmi_by_age": patterns["avg_bmi_by_age"].to_dict(),
         "category_counts": patterns["category_counts"].to_dict(),
+        "bai_category_counts": patterns["bai_category_counts"].to_dict(),
         "most_common_cat": patterns["most_common_cat"],
         "overall_avg_bmi": float(patterns["overall_avg_bmi"]),
         "overall_avg_bai": float(patterns["overall_avg_bai"]),

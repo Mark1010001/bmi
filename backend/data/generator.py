@@ -111,6 +111,7 @@ def mine_patterns(df: pd.DataFrame) -> dict:
     """
     avg_bmi_by_age  = df.groupby("Age_Group", observed=True)["BMI"].mean().round(1)
     category_counts = df["Risk_Category"].value_counts()
+    bai_category_counts = df["BAI_Category"].value_counts()
     overall_avg_bmi = round(df["BMI"].mean(), 1)
     overall_avg_bai = round(df["BAI"].mean(), 1)
     bmi_std         = round(df["BMI"].std(), 1)
@@ -136,6 +137,7 @@ def mine_patterns(df: pd.DataFrame) -> dict:
     return {
         "avg_bmi_by_age":    avg_bmi_by_age,
         "category_counts":   category_counts,
+        "bai_category_counts": bai_category_counts,
         "most_common_cat":   category_counts.idxmax(),
         "overall_avg_bmi":   overall_avg_bmi,
         "overall_avg_bai":   overall_avg_bai,

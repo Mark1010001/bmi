@@ -50,37 +50,62 @@ const Dashboard = ({ data, userResults, userMetrics }) => {
         ))}
       </div>
 
-      {/* Category Breakdown */}
-      <div>
-        <p className="text-[10px] font-bold text-[#666] uppercase tracking-widest mb-6">Risk Category Breakdown (BMI Standard)</p>
-        <div className="flex flex-col gap-8">
-          <div className="grid grid-cols-4 gap-8">
-            {categories.map(cat => {
-              const count = patterns.category_counts[cat] || 0;
-              const pct = Math.round((count / patterns.total_users) * 100);
-              return (
-                <div key={cat} className="flex flex-col items-center">
-                  <p className="text-[10px] font-bold text-[#444] uppercase mb-2">{cat}</p>
-                  <p className="text-3xl font-bold mb-1" style={{ color: CATEGORY_COLORS[cat] }}>{count}</p>
-                  <p className="text-[10px] font-bold text-[#444]">{pct}%</p>
-                </div>
-              );
-            })}
+      <div className="grid grid-cols-2 gap-8">
+        {/* BMI Category Breakdown */}
+        <div className="p-6 rounded-2xl bg-[#0a0a0a] border border-[#1a1a1a]">
+          <p className="text-[10px] font-bold text-[#666] uppercase tracking-widest mb-6">Risk Category Breakdown (BMI Standard)</p>
+          <div className="flex flex-col gap-8">
+            <div className="grid grid-cols-4 gap-4">
+              {categories.map(cat => {
+                const count = patterns.category_counts[cat] || 0;
+                const pct = Math.round((count / patterns.total_users) * 100);
+                return (
+                  <div key={cat} className="flex flex-col items-center">
+                    <p className="text-[10px] font-bold text-[#444] uppercase mb-2">{cat}</p>
+                    <p className="text-2xl font-bold mb-1" style={{ color: CATEGORY_COLORS[cat] }}>{count}</p>
+                    <p className="text-[10px] font-bold text-[#444]">{pct}%</p>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="h-2 w-full flex rounded-full overflow-hidden">
+              {categories.map(cat => {
+                const count = patterns.category_counts[cat] || 0;
+                const pct = (count / patterns.total_users) * 100;
+                return (
+                  <div key={cat} style={{ width: `${pct}%`, backgroundColor: CATEGORY_COLORS[cat] }} className="h-full" />
+                );
+              })}
+            </div>
           </div>
+        </div>
 
-          {/* Multi-segmented Progress Bar */}
-          <div className="h-2 w-full flex rounded-full overflow-hidden">
-            {categories.map(cat => {
-              const count = patterns.category_counts[cat] || 0;
-              const pct = (count / patterns.total_users) * 100;
-              return (
-                <div
-                  key={cat}
-                  style={{ width: `${pct}%`, backgroundColor: CATEGORY_COLORS[cat] }}
-                  className="h-full"
-                />
-              );
-            })}
+        {/* BAI Category Breakdown */}
+        <div className="p-6 rounded-2xl bg-[#0a0a0a] border border-[#1a1a1a]">
+          <p className="text-[10px] font-bold text-[#666] uppercase tracking-widest mb-6">Risk Category Breakdown (BAI Standard)</p>
+          <div className="flex flex-col gap-8">
+            <div className="grid grid-cols-4 gap-4">
+              {categories.map(cat => {
+                const count = patterns.bai_category_counts?.[cat] || 0;
+                const pct = Math.round((count / patterns.total_users) * 100);
+                return (
+                  <div key={cat} className="flex flex-col items-center">
+                    <p className="text-[10px] font-bold text-[#444] uppercase mb-2">{cat}</p>
+                    <p className="text-2xl font-bold mb-1" style={{ color: cat === 'Normal' ? '#8098FF' : CATEGORY_COLORS[cat] }}>{count}</p>
+                    <p className="text-[10px] font-bold text-[#444]">{pct}%</p>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="h-2 w-full flex rounded-full overflow-hidden">
+              {categories.map(cat => {
+                const count = patterns.bai_category_counts?.[cat] || 0;
+                const pct = (count / patterns.total_users) * 100;
+                return (
+                  <div key={cat} style={{ width: `${pct}%`, backgroundColor: cat === 'Normal' ? '#8098FF' : CATEGORY_COLORS[cat] }} className="h-full" />
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
