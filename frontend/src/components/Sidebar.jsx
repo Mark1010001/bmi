@@ -172,35 +172,35 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
           {/* Comparison Table */}
           {results && (
             <section className="p-4 rounded-2xl bg-[#111] border border-[#1a1a1a]">
-              <p className="text-[11px] font-bold text-[#ccc] uppercase tracking-wider mb-4 px-1">
+              <p className="text-[13px] font-black text-[#f0f0f0] uppercase tracking-wider mb-5 px-1">
                 YOUR BMI {results.bmi} — STANDARD COMPARISON
               </p>
-              <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-lg p-2">
-                <div className="flex text-[8px] font-bold text-[#555] uppercase tracking-tighter mb-2 px-2">
-                  <div className="w-[28%]">STANDARD</div>
-                  <div className="w-[22%] text-center">OVERWEIGHT</div>
+              <div className="bg-[#0a0a0a] border border-zinc-800/50 rounded-xl p-3 shadow-inner">
+                <div className="flex text-[9px] font-bold text-[#555] uppercase tracking-tighter mb-4 px-2">
+                  <div className="w-[30%]">STANDARD</div>
+                  <div className="w-[20%] text-center">OVERWEIGHT</div>
                   <div className="w-[18%] text-center">OBESE</div>
                   <div className="w-[32%] text-right">YOUR CATEGORY</div>
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-2">
                   {[
                     { name: 'Global WHO', over: '25.0+', obese: '30.0+', cat: results.global_bmi_category, id: 'Global WHO Standard' },
                     { name: 'Asian Clinical', over: '23.0+', obese: '27.5+', cat: results.asian_bmi_category, id: 'Asian Clinical Standard' }
                   ].map(s => (
                     <div
                       key={s.name}
-                      className={`flex items-center px-2 py-3 rounded-md transition-colors ${
-                        activeStandard === s.id ? 'bg-[#d4f01e]/5' : ''
+                      className={`flex items-center px-2 py-3.5 rounded-lg transition-all duration-300 ${
+                        activeStandard === s.id ? 'bg-[#d4f01e]/10 ring-1 ring-[#d4f01e]/20' : ''
                       }`}
                     >
-                      <div className={`w-[28%] text-[10px] font-bold ${activeStandard === s.id ? 'text-[#d4f01e]' : 'text-white/80'}`}>
+                      <div className={`w-[30%] text-[11px] font-black ${activeStandard === s.id ? 'text-[#d4f01e]' : 'text-white'}`}>
                         {s.name}
                       </div>
-                      <div className="w-[22%] text-[9px] text-[#666] font-bold text-center">{s.over}</div>
-                      <div className="w-[18%] text-[9px] text-[#666] font-bold text-center">{s.obese}</div>
+                      <div className="w-[20%] text-[10px] text-[#888] font-bold text-center">{s.over}</div>
+                      <div className="w-[18%] text-[10px] text-[#888] font-bold text-center">{s.obese}</div>
                       <div
-                        className="w-[32%] text-[10px] font-black text-right uppercase italic"
+                        className="w-[32%] text-[12px] font-black text-right uppercase italic tracking-tight"
                         style={{ color: CATEGORY_COLORS[s.cat] || '#d4f01e' }}
                       >
                         {s.cat}
@@ -214,29 +214,29 @@ const Sidebar = ({ metrics, setMetrics, activeStandard, setActiveStandard, resul
 
           {/* Reference Tables */}
           <section className="p-4 rounded-2xl bg-[#111] border border-[#1a1a1a] mb-8">
-            <p className="text-[11px] font-bold text-brand uppercase tracking-wider mb-4 px-1">HEALTHY BODY METRIC TARGETS</p>
-            <div className="bg-zinc-900/30 border border-zinc-800/50 rounded-lg p-3 overflow-hidden">
-              <div className="flex text-[8px] text-[#555] font-bold uppercase tracking-tighter border-b border-zinc-800/50 pb-2 mb-2">
-                <div className="w-[18%]">METRIC</div>
+            <p className="text-[13px] font-black text-brand uppercase tracking-wider mb-5 px-1">HEALTHY BODY METRIC TARGETS</p>
+            <div className="bg-[#0a0a0a] border border-zinc-800/50 rounded-xl p-4 shadow-inner overflow-hidden">
+              <div className="flex text-[9px] text-[#555] font-black uppercase tracking-tighter border-b border-zinc-800/50 pb-3 mb-4">
+                <div className="w-[20%]">METRIC</div>
                 <div className="w-[18%] text-center">BMI (WHO)</div>
-                <div className="w-[21%] text-center">BAI (18-39)</div>
-                <div className="w-[21%] text-center">BAI (40-59)</div>
+                <div className="w-[20%] text-center">BAI (18-39)</div>
+                <div className="w-[20%] text-center">BAI (40-59)</div>
                 <div className="w-[22%] text-right">BAI (60+)</div>
               </div>
-              <div className="space-y-3">
-                <div className="flex items-center text-white/90">
-                  <div className="w-[18%] text-[10px] font-bold text-white">Male</div>
-                  <div className="w-[18%] text-[9px] font-bold text-center">18.5-24.9</div>
-                  <div className="w-[21%] text-[9px] font-bold text-center">8%-21%</div>
-                  <div className="w-[21%] text-[9px] font-bold text-center">11%-23%</div>
-                  <div className="w-[22%] text-[9px] font-bold text-right">13%-25%</div>
+              <div className="space-y-5">
+                <div className="flex items-center text-white">
+                  <div className="w-[20%] text-[11px] font-black">Male</div>
+                  <div className="w-[18%] text-[10px] font-bold text-center opacity-90">18.5-24.9</div>
+                  <div className="w-[20%] text-[10px] font-bold text-center opacity-90">8%-21%</div>
+                  <div className="w-[20%] text-[10px] font-bold text-center opacity-90">11%-23%</div>
+                  <div className="w-[22%] text-[10px] font-bold text-right opacity-90">13%-25%</div>
                 </div>
-                <div className="flex items-center text-white/90 border-t border-zinc-800/20 pt-3">
-                  <div className="w-[18%] text-[10px] font-bold text-white">Female</div>
-                  <div className="w-[18%] text-[9px] font-bold text-center">18.5-24.9</div>
-                  <div className="w-[21%] text-[9px] font-bold text-center">21%-33%</div>
-                  <div className="w-[21%] text-[9px] font-bold text-center">23%-35%</div>
-                  <div className="w-[22%] text-[9px] font-bold text-right">25%-38%</div>
+                <div className="flex items-center text-white border-t border-zinc-800/30 pt-4">
+                  <div className="w-[20%] text-[11px] font-black">Female</div>
+                  <div className="w-[18%] text-[10px] font-bold text-center opacity-90">18.5-24.9</div>
+                  <div className="w-[20%] text-[10px] font-bold text-center opacity-90">21%-33%</div>
+                  <div className="w-[20%] text-[10px] font-bold text-center opacity-90">23%-35%</div>
+                  <div className="w-[22%] text-[10px] font-bold text-right opacity-90">25%-38%</div>
                 </div>
               </div>
             </div>
