@@ -31,7 +31,7 @@ ADJUSTED_ETHNICITIES = {"Asian", "Black"}
 
 CATEGORY_COLORS = {
     "Underweight": "#378ADD",
-    "Normal":      "#639922",
+    "Normal":      "#d4f01e",
     "Overweight":  "#BA7517",
     "Obese":       "#E24B4A",
 }
@@ -42,7 +42,7 @@ STANDARD_GLOBAL = "Global WHO Standard"
 STANDARD_ASIAN  = "Asian Clinical Standard"
 
 # ─────────────────────────────────────────────
-# BAI HEALTHY RANGES BY GENDER (body fat %)
+# BAI NORMAL RANGES BY GENDER (body fat %)
 # Source: Bergman et al. (2011), Obesity Journal
 # ─────────────────────────────────────────────
 
